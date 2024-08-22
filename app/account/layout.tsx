@@ -11,11 +11,5 @@ export default function ProtectedLayout({
   const { user, error } = useUser();
   if (!user || error) return <section>Loading...</section>;
 
-  return (
-    <section>
-      <p>{JSON.stringify(user)}</p>
-      <p>{JSON.stringify(error)}</p>
-      {children}
-    </section>
-  );
+  return <section>{children}</section>;
 }
