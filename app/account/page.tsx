@@ -1,5 +1,6 @@
 "use client";
 import { useUserRecipes } from "@/hooks/useUser";
+import { logout } from "@/lib/users";
 
 export default function Account() {
   const { recipes, error } = useUserRecipes();
@@ -11,6 +12,7 @@ export default function Account() {
       {recipes.map((rec) => {
         return <p key={rec.id}>{rec.name}</p>;
       })}
+      <button onClick={logout}>Logout</button>
     </div>
   );
 }

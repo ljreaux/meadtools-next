@@ -1,4 +1,5 @@
 'use server'
+import { cookies } from "next/headers";
 import { supabase } from "../supabaseClient";
 
 export async function getUserByEmail(email: string) {
