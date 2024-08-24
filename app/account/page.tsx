@@ -1,18 +1,23 @@
 "use client";
 import { useUserRecipes } from "@/hooks/useUser";
-import { logout } from "@/lib/users";
+
 import RecipeCard from "./RecipeCard";
 import { SkeletonCard } from "@/components/SkeletonCard";
 
+import { useTranslation } from "react-i18next";
+import { AccountButtons } from "./AccountButtons";
+
 export default function Account() {
   const { recipes, error, deleteRecipe } = useUserRecipes();
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
+  const { t } = useTranslation();
+
   return (
-    <div>
-      <h1 className="text-3xl my-4">User Recipes</h1>
-      {recipes.length ? (
+    <>
+      <AccountButtons />
+      <h1 className="text-3xl my-4">{t("accountPage.title")} </h1>
+      {error ? (
+        <div>Error: {error.message}</div>
+      ) : recipes.length ? (
         <div className="flex gap-4 flex-wrap justify-center">
           {recipes.map((rec) => {
             return (
@@ -29,8 +34,7 @@ export default function Account() {
       ) : (
         <CardLoading />
       )}
-      <button onClick={logout}>Logout</button>
-    </div>
+    </>
   );
 }
 

@@ -72,7 +72,7 @@ export const useUserRecipes = () => {
         return
       }
       const recipes = await getUserRecipes(user.id);
-
+      if (recipes.length === 0) setError(new AxiosError('No recipes found'))
       setRecipes(recipes)
     })()
   }, [])

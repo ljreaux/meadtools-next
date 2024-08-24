@@ -22,16 +22,10 @@ export default function RecipeCard({
       <p>{recipe.name}</p>
       <RecipeTogglePrivate recipe={recipe} />
       <div className="flex gap-1">
-        <Button
-          onClick={() => push(`/recipes/${recipe.id}`)}
-          variant={"secondary"}
-        >
+        <Button onClick={() => push(`/recipes/${recipe.id}`)}>
           {t("accountPage.viewRecipe")}
         </Button>
-        <Button
-          onClick={() => push(`/recipes/${recipe.id}?pdf=true`)}
-          variant={"secondary"}
-        >
+        <Button onClick={() => push(`/recipes/${recipe.id}?pdf=true`)}>
           {t("PDF.title")}
         </Button>
       </div>
