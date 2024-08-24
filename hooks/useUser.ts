@@ -21,13 +21,13 @@ export const useUser = () => {
         push("/");
       } else {
         setUser(user);
-
+        setError(null);
       }
     })();
   }, []);
   return { user, error }
 }
-const getUser = async () => {
+export const getUser = async () => {
   try {
     const { data } = await axios.get("/api/auth/me");
     if (data.status !== 200) throw new Error(data);
@@ -48,16 +48,33 @@ const getUser = async () => {
 export const useUserRecipes = () => {
   const [error, setError] = useState<null | AxiosError>(null)
   const [recipes, setRecipes] = useState<Recipe[]>([])
+
+  const deleteRecipe = async (recipeId: number) => {
+    try {
+      const { data } = await axios.delete(`/api/recipes/${recipeId}`);
+      if (data.status !== 200) throw new Error(data);
+      const updatedRecipes = recipes.filter(rec => rec.id !== recipeId)
+      setRecipes(updatedRecipes)
+      return { message: 'Recipe deleted successfully', status: 'success' };
+    } catch (err) {
+      const error = err as AxiosError;
+      setError(error)
+      return { message: 'Error deleting recipe', status: 'error' };
+    }
+  }
+
   useEffect(() => {
     (async () => {
       const { user, error } = await getUser();
-      const recipes = await getUserRecipes(user.id);
       if (error) {
         setRecipes([])
         setError(error)
+        return
       }
+      const recipes = await getUserRecipes(user.id);
+
       setRecipes(recipes)
     })()
   }, [])
-  return { error, recipes }
+  return { error, recipes, deleteRecipe }
 }

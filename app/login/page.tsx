@@ -1,6 +1,8 @@
 "use client";
+import { getUser } from "@/hooks/useUser";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Home() {
   const { push } = useRouter();
@@ -13,13 +15,21 @@ export default function Home() {
 
     try {
       const { data } = await axios.post("/api/auth/login", payload);
-      console.log(data);
+
       push("/account");
     } catch (e) {
       const error = e as AxiosError;
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    (async () => {
+      const { user, error } = await getUser();
+      if (user && !error) push("/account");
+    })();
+  }, []);
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <form onSubmit={handleSubmit}>

@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Navbar from "@/components/ui/Navbar";
 import TranslationsProvider from "@/components/TranslationsProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const libre = Libre_Baskerville({ weight: ["400", "700"], subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(libre.className, "bg-secondary")}>
+        <Toaster />
         <TranslationsProvider>
           <ThemeProvider
             attribute="class"
